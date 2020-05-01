@@ -19,12 +19,16 @@ inquirer
       name: "confirm"
     }
   ])
-  .then(function(response) {
-    console.log (response);
-    if (response.confirm === response.password) {
-      console.log("Success!");
-    }
-    else {
-      console.log("You forgot your password already?!");
-    }
-  });
+  .then(function({ username }) {
+  
+    const queryUrl = `https://api.github.com/users/${username}/repos?per_page=100`;
+    
+    // Async API call
+    axios.get(queryUrl).then(function(res) {
+      console.log(res)
+      
+      const repoNames = res.data.map(function(repo) {
+        return repo.name;
+      });
+    });
+  });  
